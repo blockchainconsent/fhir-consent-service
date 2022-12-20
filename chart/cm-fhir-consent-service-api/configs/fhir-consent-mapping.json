@@ -1,0 +1,11 @@
+{
+  "PatientID": "patient.reference",
+  "ServiceID": "provision.actor.0.reference.reference",
+  "DatatypeIDs": "scope.coding",
+  "ConsentOption": ["status", "provision"],
+  "Expiration": "provision.period.end",
+  "FHIRPolicy": "policy.uri",
+  "FHIRStatus": "status",
+  "FHIRProvisionType": "provision.type",
+  "FHIRProvisionAction": "provision.action.coding.code"
+}

@@ -1,0 +1,37 @@
+{
+  "app": {
+    "env": "development",
+    "port": 3004,
+    "httpsEnabled": false
+  },
+  "log": {
+    "name": "console",
+    "level": "debug"
+  },
+  "httpClient": {
+    "apiProtocol": "https",
+    "retries": 3,
+    "retryDelay": 3000,
+    "timeout": 10000,
+    "asyncRegisterConsentUrl": "http://localhost:3001/gateway/api/v1/register-consent/internal",
+    "baseSimpleConsentUrl": "http://localhost:3002",
+    "healthRegisterConsentUrl": "http://localhost:3001/gateway/health"
+  },
+  "keyProtect": {
+    "retries": 1,
+    "retryDelay": 3000,
+    "timeout": 10000
+  },
+  "databaseConfig": {
+    "connection": {
+      "url": "cloudant-url",
+      "username": "cloudant-username",
+      "password": "cloudant-password",
+      "account": "",
+      "iamApiKey": "",
+      "timeout": 5000
+    },
+    "dbNameFhirResource": "fhir-resource-ids",
+    "dbPartitionKey": "cm"
+  }
+}

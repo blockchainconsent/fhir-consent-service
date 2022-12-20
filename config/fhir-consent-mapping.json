@@ -1,0 +1,20 @@
+{
+  "PatientID": "patient.reference",
+  "DatatypeIDs": "scope.coding",
+  "ConsentOption": [],
+  "Expiration": "provision.period.end",
+  "FHIRPolicy": "policy",
+  "FHIRStatus": "status",
+  "FHIRProvisionType": "provision.type",
+  "FHIRProvisionAction": "provision.action.coding.code",
+  "ServiceID": "",
+  "Creation": "provision.period.start",
+  "FHIRResourceID": "id",
+  "FHIRResourceVersion": "meta.versionId",
+  "FHIRPerformerIDSystem": "provision",
+  "FHIRPerformerIDValue": "provision",
+  "FHIRPerformerDisplay": "provision",
+  "FHIRRecipientIDSystem": "provision",
+  "FHIRRecipientIDValue": "provision",
+  "FHIRRecipientDisplay": "provision"
+}

@@ -1,0 +1,33 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: {{ .Release.Name }}-5102
+  labels:
+{{ include "chart.labels" . | indent 4 }}
+  annotations:
+    TOOLCHAIN_ID: {{ .Values.annotations.TOOLCHAIN_ID }}
+    GIT_URL: {{ .Values.annotations.GIT_URL }}
+    GIT_BRANCH: {{ .Values.annotations.GIT_BRANCH }}
+    GIT_COMMIT: {{ .Values.annotations.GIT_COMMIT }}
+    USER_NAME: {{ .Values.annotations.USER_NAME }}
+    APPLICATION_VERSION: {{ .Values.annotations.APPLICATION_VERSION }}
+spec:
+  schedule: "*/5 * * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          imagePullSecrets:
+          - name: regsecret
+          containers:
+          - name: tenant5102
+            image: us.icr.io/wh-common-rns/base-images/ubi8:20220601.1552
+            imagePullPolicy: {{ .Values.image.pullPolicy }}
+            args:
+            - /bin/sh
+            - -ec
+            - 'curl -k -X POST {{ .Values.httpClient.fhirConsentServiceUrl }}/fhir-consent-service/api/v1/fhir-consent/process-fhir-consents -H "x-cm-tenantid: 5102"'
+          restartPolicy: Never

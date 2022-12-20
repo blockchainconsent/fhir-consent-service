@@ -1,0 +1,37 @@
+{
+  "app": {
+    "env": "{{ .Values.app.env }}",
+    "port": "{{ .Values.service.internalPort }}",
+    "httpsEnabled": "{{ .Values.app.httpsEnabled }}"
+  },
+  "log": {
+    "name": "{{ .Values.log.name }}",
+    "level": "{{ .Values.log.level }}"
+  },
+  "httpClient": {
+    "apiProtocol": "{{ .Values.httpClient.apiProtocol }}",
+    "retries": 3,
+    "retryDelay": 3000,
+    "timeout": 10000,
+    "asyncRegisterConsentUrl": "{{ .Values.httpClient.asyncRegisterConsentUrl }}",
+    "baseSimpleConsentUrl": "{{ .Values.httpClient.baseSimpleConsentUrl }}",
+    "healthRegisterConsentUrl": "{{ .Values.httpClient.healthRegisterConsentUrl }}"
+  },
+  "keyProtect": {
+    "retries": 1,
+    "retryDelay": 3000,
+    "timeout": 10000
+  },
+  "databaseConfig": {
+    "connection": {
+      "url": "{{ .Values.databaseConfig.connection.url }}",
+      "username": "{{ .Values.databaseConfig.connection.username }}",
+      "password": "{{ .Values.databaseConfig.connection.password }}",
+      "account": "{{ .Values.databaseConfig.connection.account }}",
+      "iamApiKey": "{{ .Values.databaseConfig.connection.iamApiKey }}",
+      "timeout": "{{ .Values.databaseConfig.connection.timeout }}"
+    },
+    "dbNameFhirResource": "{{ .Values.databaseConfig.dbNameFhirResource }}",
+    "dbPartitionKey": "{{ .Values.databaseConfig.dbPartitionKey }}"
+  }
+}

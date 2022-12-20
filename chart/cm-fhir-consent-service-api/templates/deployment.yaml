@@ -1,0 +1,83 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "chart.fullname" . }}
+  labels:
+{{ include "chart.labels" . | indent 4 }}
+  annotations:
+    TOOLCHAIN_ID: {{ .Values.annotations.TOOLCHAIN_ID }}
+    GIT_URL: {{ .Values.annotations.GIT_URL }}
+    GIT_BRANCH: {{ .Values.annotations.GIT_BRANCH }}
+    GIT_COMMIT: {{ .Values.annotations.GIT_COMMIT }}
+    USER_NAME: {{ .Values.annotations.USER_NAME }}
+    APPLICATION_VERSION: {{ .Values.annotations.APPLICATION_VERSION }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ include "chart.name" . }}
+      app.kubernetes.io/name: {{ include "chart.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "chart.name" . }}
+        app.kubernetes.io/name: {{ include "chart.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+      annotations:
+        # Updates deployment when ConfigMaps or Secrets change
+        checksum/configmap-env: {{ include (print $.Template.BasePath "/configmap-env.yaml") . | sha256sum }}
+        checksum/configmap-app: {{ include (print $.Template.BasePath "/configmap-app.yaml") . | sha256sum }}
+        checksum/configmap-fhir-consent-mapping: {{ include (print $.Template.BasePath "/configmap-fhir-consent-mapping.yaml") . | sha256sum }}
+        checksum/secrets: {{ include (print $.Template.BasePath "/secrets.yaml") . | sha256sum }}
+    spec:
+      terminationGracePeriodSeconds: 60
+      imagePullSecrets:
+        - name: {{ .Values.image.pullSecret }}
+      containers:
+      - image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        name: {{ .Chart.Name }}
+        ports:
+          - containerPort: {{ .Values.service.internalPort }}
+        volumeMounts:
+            - name: {{ include "chart.name" . }}-app-config-volume
+              mountPath: "/whuser/config/config.json"
+              subPath: "config.json"
+            - name: {{ include "chart.name" . }}-mapping-config-volume
+              mountPath: "/whuser/config/fhir-consent-mapping.json"
+              subPath: "fhir-consent-mapping.json"
+            - name : ssl-vol
+              mountPath : "/whuser/config/tls"
+              readOnly: true
+        envFrom:
+        - secretRef:
+            name: {{ template "chart.fullname" . }}-secret
+        - configMapRef:
+            name: {{ template "chart.fullname" . }}-env-configmap
+        {{ if eq .Values.config.probes "enabled" }}
+        readinessProbe:
+          initialDelaySeconds: 10
+          periodSeconds: 15
+          timeoutSeconds: 30
+          successThreshold: 3
+          failureThreshold: 10
+          httpGet:
+            path: "/ready"
+            port: {{ .Values.service.internalPort }}
+            scheme: HTTP
+        {{- end }}
+        resources:
+{{ toYaml .Values.resources | indent 12 }}
+      volumes:
+      - name: {{ include "chart.name" . }}-app-config-volume
+        configMap:
+          name: {{ include "chart.name" . }}-app-config
+      - name: {{ include "chart.name" . }}-mapping-config-volume
+        configMap:
+          name: {{ include "chart.name" . }}-mapping-config
+      - name: ssl-vol
+        secret:
+          secretName: {{ .Values.config.secretName }}
+      nodeSelector:
+        worker-type: application

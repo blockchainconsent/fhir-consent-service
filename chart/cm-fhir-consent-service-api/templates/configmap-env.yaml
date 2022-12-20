@@ -1,0 +1,13 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: {{ template "chart.fullname" . }}-env-configmap
+data:
+  PORT: {{ .Values.service.internalPort | quote}}
+  NEW_RELIC_ENABLED: {{ .Values.newRelic.enabled | quote }}
+  NEW_RELIC_APP_NAME: {{ .Values.newRelic.appName | quote }}
+  NEW_RELIC_HIGH_SECURITY: "true"
+  NEW_RELIC_NO_CONFIG_FILE: "true"
+  KEYPROTECT_URL: {{ .Values.keyProtect.endPoint | quote}}
+  KEYPROTECT_GUID: {{ .Values.keyProtect.guid | quote}}
+  USE_HTTPS: {{ .Values.config.enableHttps | quote}}

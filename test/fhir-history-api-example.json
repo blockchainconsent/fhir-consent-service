@@ -1,0 +1,82 @@
+{
+  "resourceType": "Bundle",
+  "type": "history",
+  "link": [
+    {
+      "relation": "next",
+      "url": "https://localhost:9443/fhir-server/api/v4/Observation/_history?_count=100&_afterHistoryId=86"
+    },
+    {
+      "relation": "self",
+      "url": "https://localhost:9443/fhir-server/api/v4/Observation/_history?_count=100"
+    }
+  ],
+  "entry": [
+    {
+      "fullUrl": "Consent/17dc8f3b172-d7b18691-155e-4e95-9cce-866968ad7aff/_history/1",
+      "request": {
+        "method": "POST",
+        "url": "Consent"
+      },
+      "response": {
+        "status": "201 Created",
+        "lastModified": "2021-12-17T15:12:33.650653Z"
+      }
+    },
+    {
+      "fullUrl": "Observation/17dc8efd9c0-3dfc17bc-fa34-4247-8209-42641c0c67e0/_history/1",
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      },
+      "response": {
+        "status": "201 Created",
+        "lastModified": "2021-12-17T15:08:21.824649Z"
+      }
+    },
+    {
+      "fullUrl": "Consent/17dc8ede598-c7de9758-b6e8-4261-be7a-e779e99e8e2c/_history/1",
+      "request": {
+        "method": "POST",
+        "url": "Consent"
+      },
+      "response": {
+        "status": "201 Created",
+        "lastModified": "2021-12-17T15:06:13.78478Z"
+      }
+    },
+    {
+      "fullUrl": "Observation/17dc8ce351b-5a0e923a-3535-4289-a761-52803da8978c/_history/1",
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      },
+      "response": {
+        "status": "201 Created",
+        "lastModified": "2021-12-17T14:31:36.987795Z"
+      }
+    },
+    {
+      "fullUrl": "Consent/17dc8c50a62-e489adcb-ad83-4db8-9bde-215dba5b844a/_history/1",
+      "request": {
+        "method": "POST",
+        "url": "Consent"
+      },
+      "response": {
+        "status": "201 Created",
+        "lastModified": "2021-12-17T14:21:36.226772Z"
+      }
+    },
+    {
+      "fullUrl": "Consent/17dc8954a91-f13ae1ca-4eef-4275-92c7-c5e9b0862a58/_history/1",
+      "request": {
+        "method": "POST",
+        "url": "Consent"
+      },
+      "response": {
+        "status": "201 Created",
+        "lastModified": "2021-12-17T13:29:26.929969Z"
+      }
+    }
+  ]
+}

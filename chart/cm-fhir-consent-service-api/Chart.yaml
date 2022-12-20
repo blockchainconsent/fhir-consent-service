@@ -1,0 +1,5 @@
+apiVersion: v2
+description: Helm chart based Kubernetes Consent Manager FHIR Consent Service
+type: application
+name: cm-fhir-consent-service-api
+version: 0.0.1

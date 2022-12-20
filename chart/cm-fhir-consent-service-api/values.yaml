@@ -1,0 +1,81 @@
+nameOverride: "cm-fhir-consent-service-api"
+fullnameOverride: "cm-fhir-consent-service-api"
+environment: "development"
+
+replicaCount: 1
+annotations:
+  TOOLCHAIN_ID: null
+  GIT_URL: null
+  GIT_BRANCH: null
+  GIT_COMMIT: null
+  USER_NAME: null
+  APPLICATION_VERSION: null
+image:
+  repository : <helm-repo>
+  tag: <helm-tag>
+  pullPolicy: IfNotPresent
+  pullSecret: regsecret
+config:
+  probes: "enabled"
+  secretName : "cm-tls-secret-crt"
+  enableHttps: false
+app:
+  env:
+  port: 3004
+  httpsEnabled:
+log:
+  name: "console"
+  level: "debug"
+httpClient:
+  apiProtocol: "https"
+  asyncRegisterConsentUrl: "https://cm-gateway-api-svc:3000/gateway/api/v1/register-consent/internal"
+  baseSimpleConsentUrl: "https://cm-hcls-simple-consent-api-svc:3002"
+  healthRegisterConsentUrl: "https://cm-gateway-api-svc:3000/gateway/health"
+  fhirConsentServiceUrl: "https://cm-fhir-consent-service-api-svc:3004"
+keyProtect:
+  endPoint: "null"
+  guid: "null"
+  iamKey: "null"
+databaseConfig:
+  connection:
+    url: ""
+    username: ""
+    password: ""
+    account: ""
+    iamApiKey: ""
+    timeout: 5000
+  dbPartitionKey: "cm"
+  dbNameFhirResource: "fhir-resource-ids"
+service:
+  type: ClusterIP
+  externalPort: 3004
+  internalPort: 3004
+
+newRelic:
+  enabled: "false"
+  appName: "null"
+  licenseKey: "null"
+
+cluster:
+  ingress:
+    enabled: false
+    endpointsExposed: false
+    class:
+    subdomain:
+    secretName:
+    proxyReadTimeout:
+    proxyConnectTimeout:
+    proxySendTimeout:
+    limitRps: 100
+
+resources:
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  limits:
+    cpu: 500m
+    memory: 256Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi

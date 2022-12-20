@@ -1,0 +1,279 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Consent Manager FHIR Consent Service",
+        "description": "Swagger Definition for Consent Manager FHIR Consent Service",
+        "version": "1.0.0"
+    },
+    "tags": [
+      {
+        "name": "FHIR consent",
+        "description": ""
+      }
+    ],
+    "paths": {
+        "/fhir-consent-service/api/v1/fhir-consent/poll-fhir-consent-history": {
+            "get": {
+                "tags": [
+                    "FHIR consent"
+                ],
+                "description": "Get poll from FHIR consent history",
+                "security": [{
+                    "bearerAuth": []
+                }],
+                "parameters": [
+                    {
+                        "name": "x-cm-tenantid",
+                        "in": "header",
+                        "description": "TenantID",
+                        "required": true,
+                        "schema": {
+                          "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/fhirConsentHistoryResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/fhirConsentHistoryError"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/ServerError"
+                    }
+                }
+            }
+        },
+        "/fhir-consent-service/api/v1/fhir-consent/register-fhir-consents": {
+            "post": {
+                "tags": [
+                    "FHIR consent"
+                ],
+                "description": "Register the FHIR consents",
+                "security": [{
+                    "bearerAuth": []
+                }],
+                "parameters": [
+                    {
+                        "name": "x-cm-tenantid",
+                        "in": "header",
+                        "description": "TenantID",
+                        "required": true,
+                        "schema": {
+                          "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/registerFhirConsentResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/registerFhirConsentError"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/ServerError"
+                    }
+                }
+            }
+        },
+        "/fhir-consent-service/api/v1/fhir-consent/process-fhir-consents": {
+            "post": {
+                "tags": [
+                    "FHIR consent"
+                ],
+                "description": "Process the FHIR consents",
+                "security": [{
+                    "bearerAuth": []
+                }],
+                "parameters": [
+                    {
+                        "name": "x-cm-tenantid",
+                        "in": "header",
+                        "description": "TenantID",
+                        "required": true,
+                        "schema": {
+                          "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/processFhirConsentResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/processFhirConsentError"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/ServerError"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        },
+        "schemas": {
+            "fhirConsentHistoryResponse": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "type": "integer",
+                        "default": 200
+                    },
+                    "message": {
+                        "type": "string"
+                    }
+                }
+            },
+            "registerFhirConsentResponse": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "type": "integer",
+                        "default": 201
+                    },
+                    "message": {
+                        "type": "string"
+                    }
+                }
+            },
+            "processFhirConsentResponse": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "type": "integer",
+                        "default": 201
+                    },
+                    "message": {
+                        "type": "string"
+                    }
+                }
+            },
+            "BasicResponse": {
+                "type": "object",
+                "properties": {
+                    "msg": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "type": "integer"
+                    }
+                }
+            },
+            "BasicErrorMessage": {
+                "type": "object",
+                "required": [
+                    "error"
+                ],
+                "properties": {
+                    "error": {
+                        "type": "object",
+                        "properties": {
+                            "message": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "responses": {
+            "fhirConsentHistoryError": {
+                "description": "Failed to history FHIR consents",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/BasicResponse"
+                        }
+                    }
+                }
+            },
+            "registerFhirConsentError": {
+                "description": "Failed to register FHIR consents",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/BasicResponse"
+                        }
+                    }
+                }
+            },
+            "processFhirConsentError": {
+                "description": "Failed to process FHIR consents",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/BasicResponse"
+                        }
+                    }
+                }
+            },
+            "UnauthorizedError": {
+                "description": "Logged in user is unauthorized to make this request",
+                "content": {
+                    "text/plain": {
+                        "example": "Error: Unauthorized"
+                    }
+                }
+            },
+            "NotFoundError": {
+                "description": "Resource was not found",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/BasicErrorMessage"
+                        }
+                    }
+                }
+            },
+            "ServerError": {
+                "description": "Unexpected server error",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/BasicErrorMessage"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
